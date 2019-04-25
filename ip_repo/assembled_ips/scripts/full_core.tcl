@@ -12,8 +12,8 @@ update_ip_catalog -rebuild
 addip util_vector_logic util_vector_logic_0
 set_property -dict [list CONFIG.C_SIZE {1} CONFIG.C_OPERATION {not} CONFIG.LOGO_FILE {data/sym_notgate.png}] [get_bd_cells util_vector_logic_0]
 
-create_bd_cell -type ip -vlnv Qianfeng_Clark_Shen:user:udp_ip_server_100g:1.0 udp_ip_server_100g_0
-create_bd_cell -type ip -vlnv Qianfeng_Clark_Shen:user:arp_server_100g:1.0 arp_server_100g_0
+create_bd_cell -type ip -vlnv clarkshen.com:user:udp_ip_server_100g:1.0 udp_ip_server_100g_0
+create_bd_cell -type ip -vlnv clarkshen.com:user:arp_server_100g:1.0 arp_server_100g_0
 addip ether_protocol_spliter ether_protocol_spliter_0
 addip ether_protocol_assembler ether_protocol_assembler_0
 
@@ -102,8 +102,8 @@ make_wrapper -files [get_files $project_dir/$project_name/${project_name}.srcs/s
 add_files -norecurse $project_dir/$project_name/${project_name}.srcs/sources_1/bd/${project_name}/hdl/${project_name}_wrapper.v
 save_bd_design
 
-ipx::package_project -root_dir $project_dir/$project_name/${project_name}.srcs/sources_1/bd/${project_name} -vendor Qianfeng_Clark_Shen -library user -taxonomy /UserIP
-set_property vendor_display_name {Qianfeng (Clark) Shen} [ipx::current_core]
+ipx::package_project -root_dir $project_dir/$project_name/${project_name}.srcs/sources_1/bd/${project_name} -vendor clarkshen.com -library user -taxonomy /UserIP
+set_property vendor_display_name {clarkshen.com} [ipx::current_core]
 set_property name $project_name [ipx::current_core]
 set_property display_name $project_name [ipx::current_core]
 set_property description $project_name [ipx::current_core]

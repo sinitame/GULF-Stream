@@ -28,7 +28,7 @@ set_property -dict [list CONFIG.CONST_WIDTH {56} CONFIG.CONST_VAL {0}] [get_bd_c
 set_property -dict [list CONFIG.CONST_WIDTH {12} CONFIG.CONST_VAL {0}] [get_bd_cells eth_100g/zeroX12]
 set_property -dict [list CONFIG.CONST_WIDTH {10} CONFIG.CONST_VAL {0}] [get_bd_cells eth_100g/zeroX10]
 
-create_bd_cell -type ip -vlnv Qianfeng_Clark_Shen:user:lbus_axis_converter:1.0 eth_100g/lbus_axis_converter_0
+create_bd_cell -type ip -vlnv clarkshen.com:user:lbus_axis_converter:1.0 eth_100g/lbus_axis_converter_0
 
 make_bd_intf_pins_external  [get_bd_intf_pins eth_100g/cmac_usplus_0/gt_ref_clk]
 make_bd_intf_pins_external  [get_bd_intf_pins eth_100g/cmac_usplus_0/gt_serial_port]
@@ -66,7 +66,7 @@ connect_bd_net [get_bd_pins eth_100g/zeroX56/dout] [get_bd_pins eth_100g/cmac_us
 ##################
 
 #make loopback GULF stream
-create_bd_cell -type ip -vlnv Qianfeng_Clark_Shen:user:GULF_Stream:1.0 GULF_Stream_0
+create_bd_cell -type ip -vlnv clarkshen.com:user:GULF_Stream:1.0 GULF_Stream_0
 addip xlconstant rst
 addip xlconstant ip
 addip xlconstant gateway
