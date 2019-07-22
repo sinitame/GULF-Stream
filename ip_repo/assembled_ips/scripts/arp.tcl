@@ -2,7 +2,7 @@ set project_dir [file dirname [file dirname [file normalize [info script]]]]
 set project_name "arp_server_100g"
 source ${project_dir}/scripts/util.tcl
 
-create_project $project_name $project_dir/$project_name -part xczu19eg-ffvc1760-2-i
+create_project $project_name $project_dir/$project_name -part xcvu3p-ffvc1517-2-i
 #set_property board_part fidus.com:sidewinder100:part0:1.0 [current_project]
 create_bd_design $project_name
 

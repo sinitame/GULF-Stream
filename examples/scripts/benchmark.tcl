@@ -3,7 +3,7 @@ set project_name "benchmark"
 set script_dir [file dirname [file normalize [info script]]]
 source $script_dir/util.tcl
 
-create_project $project_name $project_dir/$project_name -part xczu19eg-ffvc1760-2-i
+create_project $project_name $project_dir/$project_name -part xcvu3p-ffvc1517-2-i
 create_bd_design $project_name
 set_property ip_repo_paths "${project_dir}/../ip_repo" [current_project]
 update_ip_catalog -rebuild
@@ -59,41 +59,17 @@ connect_bd_net [get_bd_pins eth_100g/zeroX12/dout] [get_bd_pins eth_100g/cmac_us
 connect_bd_net [get_bd_pins eth_100g/zeroX16/dout] [get_bd_pins eth_100g/cmac_usplus_0/drp_di]
 connect_bd_net [get_bd_pins eth_100g/zeroX56/dout] [get_bd_pins eth_100g/cmac_usplus_0/tx_preamblein]
 ##################
-#
+
 addip GULF_Stream GULF_Stream_0
-set_property -dict [list CONFIG.HAS_AXIL {true}] [get_bd_cells GULF_Stream_0]
+set_property -dict [list CONFIG.HAS_AXIL {false}] [get_bd_cells GULF_Stream_0]
 connect_bd_intf_net [get_bd_intf_pins GULF_Stream_0/m_axis] [get_bd_intf_pins eth_100g/lbus_axis_converter_0/s_axis]
 connect_bd_intf_net [get_bd_intf_pins GULF_Stream_0/s_axis] [get_bd_intf_pins eth_100g/lbus_axis_converter_0/m_axis]
 connect_bd_net [get_bd_pins GULF_Stream_0/clk] [get_bd_pins eth_100g/cmac_usplus_0/gt_txusrclk2]
 
-addip zynq_ultra_ps_e zynq_ultra_ps_e_0
-source $script_dir/ps_preset.tcl
-set_property -dict [apply_preset zynq_ultra_ps_e_0] [get_bd_cells zynq_ultra_ps_e_0]
-set_property -dict [list CONFIG.PSU__USE__S_AXI_GP2 {0}] [get_bd_cells zynq_ultra_ps_e_0]
-
-addip proc_sys_reset proc_sys_reset_0
-addip axi_interconnect axi_interconnect_0
-addip GULF_Stream_benchmark GULF_Stream_benchmark_0
-connect_bd_net [get_bd_pins eth_100g/gt_txusrclk2] [get_bd_pins axi_interconnect_0/ACLK] -boundary_type upper
-connect_bd_net [get_bd_pins eth_100g/gt_txusrclk2] [get_bd_pins axi_interconnect_0/S00_ACLK] -boundary_type upper
-connect_bd_net [get_bd_pins eth_100g/gt_txusrclk2] [get_bd_pins axi_interconnect_0/M00_ACLK] -boundary_type upper
-connect_bd_net [get_bd_pins eth_100g/gt_txusrclk2] [get_bd_pins axi_interconnect_0/M01_ACLK] -boundary_type upper
-connect_bd_net [get_bd_pins eth_100g/gt_txusrclk2] [get_bd_pins GULF_Stream_benchmark_0/clk]
-connect_bd_net [get_bd_pins eth_100g/gt_txusrclk2] [get_bd_pins proc_sys_reset_0/slowest_sync_clk]
-connect_bd_net [get_bd_pins eth_100g/gt_txusrclk2] [get_bd_pins zynq_ultra_ps_e_0/maxihpm0_fpd_aclk]
-
-connect_bd_net [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0] [get_bd_pins proc_sys_reset_0/ext_reset_in]
-connect_bd_net [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axi_interconnect_0/ARESETN]
-connect_bd_net [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axi_interconnect_0/S00_ARESETN]
-connect_bd_net [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axi_interconnect_0/M00_ARESETN]
-connect_bd_net [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axi_interconnect_0/M01_ARESETN]
-connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_reset] [get_bd_pins GULF_Stream_0/rst]
-connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/S00_AXI] [get_bd_intf_pins zynq_ultra_ps_e_0/M_AXI_HPM0_FPD]
-connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M00_AXI] [get_bd_intf_pins GULF_Stream_0/s_axictl]
-connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_0/M01_AXI] [get_bd_intf_pins GULF_Stream_benchmark_0/AXILITE_Config]
-connect_bd_intf_net [get_bd_intf_pins GULF_Stream_benchmark_0/payload_m_axis] [get_bd_intf_pins GULF_Stream_0/payload_from_user]
-connect_bd_intf_net [get_bd_intf_pins GULF_Stream_0/payload_to_user] [get_bd_intf_pins GULF_Stream_benchmark_0/payload_s_axis]
-connect_bd_intf_net [get_bd_intf_pins GULF_Stream_benchmark_0/user_GULF_stream_meta] [get_bd_intf_pins GULF_Stream_0/meta_tx]
+#make_bd_intf_pins_external [get_bd_intf_pins GULF_Stream_0/payload_from_user]
+#make_bd_intf_pins_external [get_bd_intf_pins GULF_Stream_0/payload_to_user]
+#make_bd_intf_pins_external  [get_bd_intf_pins eth_100g/cmac_usplus_0/gt_rx]
+#make_bd_intf_pins_external  [get_bd_intf_pins eth_100g/cmac_usplus_0/gt_tx]
 
 set_property name init [get_bd_intf_ports CLK_IN_D_0]
 set_property name gt_ref [get_bd_intf_ports gt_ref_clk_0]

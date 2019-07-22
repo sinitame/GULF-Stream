@@ -2,7 +2,7 @@ set project_dir [file dirname [file dirname [file normalize [info script]]]]
 set project_name "GULF_Stream_benchmark"
 source ${project_dir}/scripts/util.tcl
 
-create_project $project_name $project_dir/$project_name -part xczu19eg-ffvc1760-2-i
+create_project $project_name $project_dir/$project_name -part xcvu3p-ffvc1517-2-i
 create_bd_design $project_name
 
 set_property ip_repo_paths "${project_dir}/../" [current_project]

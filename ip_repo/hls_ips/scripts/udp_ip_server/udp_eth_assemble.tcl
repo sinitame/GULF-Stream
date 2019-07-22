@@ -7,7 +7,7 @@ open_project $module_name
 set_top $module_name
 add_files $root_dir/src/$ip_name/$subdir/$module_name.cpp
 open_solution "solution1"
-set_part {xczu19eg-ffvc1760-2-i} -tool vivado
+set_part {xcvu3p-ffvc1517-2-i} -tool vivado
 create_clock -period 3.103 -name default
 config_rtl -reset all
 csynth_design

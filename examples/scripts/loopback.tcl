@@ -3,7 +3,7 @@ set project_name "loopback_server"
 set script_dir [file dirname [file normalize [info script]]]
 source $script_dir/util.tcl
 
-create_project $project_name $project_dir/$project_name -part xczu19eg-ffvc1760-2-i
+create_project $project_name $project_dir/$project_name -part xcvu3p-ffvc1517-2-i
 create_bd_design $project_name
 
 set_property ip_repo_paths "${project_dir}/../ip_repo" [current_project]
