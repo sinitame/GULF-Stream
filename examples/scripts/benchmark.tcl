@@ -71,6 +71,36 @@ connect_bd_net [get_bd_pins GULF_Stream_0/clk] [get_bd_pins eth_100g/cmac_usplus
 #make_bd_intf_pins_external  [get_bd_intf_pins eth_100g/cmac_usplus_0/gt_rx]
 #make_bd_intf_pins_external  [get_bd_intf_pins eth_100g/cmac_usplus_0/gt_tx]
 
+#make_bd_intf_pins_external [get_bd_intf_pins GULF_Stream_0/payload_from_user]
+create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_tlm:1.0 payload_from_user
+connect_bd_intf_net [get_bd_intf_ports payload_from_user] [get_bd_intf_pins GULF_Stream_0/payload_from_user]
+set_property -dict [list CONFIG.CLK_DOMAIN {benchmark_cmac_usplus_0_0_gt_txusrclk2} CONFIG.FREQ_HZ {322265625} CONFIG.TDATA_NUM_BYTES {64}] [get_bd_intf_ports payload_from_user]
+
+#make_bd_intf_pins_external [get_bd_intf_pins GULF_Stream_0/payload_to_user]
+create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 payload_to_user
+set_property -dict [list CONFIG.CLK_DOMAIN {benchmark_cmac_usplus_0_0_gt_txusrclk2} CONFIG.FREQ_HZ {322265625}] [get_bd_intf_ports payload_to_user]
+connect_bd_intf_net [get_bd_intf_pins GULF_Stream_0/payload_to_user] [get_bd_intf_ports payload_to_user]
+
+#make_bd_intf_pins_external  [get_bd_intf_pins eth_100g/cmac_usplus_0/gt_rx]
+create_bd_intf_port -mode Slave -vlnv xilinx.com:display_cmac_usplus:gt_ports:2.0 gt_rx 
+connect_bd_intf_net [get_bd_intf_ports gt_rx] [get_bd_intf_pins eth_100g/cmac_usplus_0/gt_rx]
+
+#make_bd_intf_pins_external  [get_bd_intf_pins eth_100g/cmac_usplus_0/gt_tx]
+create_bd_intf_port -mode Master -vlnv xilinx.com:display_cmac_usplus:gt_ports:2.0 gt_tx 
+connect_bd_intf_net [get_bd_intf_ports gt_tx] [get_bd_intf_pins eth_100g/cmac_usplus_0/gt_tx]
+
+create_bd_port -dir I -type rst rst
+connect_bd_net [get_bd_pins /GULF_Stream_0/rst] [get_bd_ports rst]
+
+create_bd_port -dir O -from 1 -to 0 arp_status
+connect_bd_net [get_bd_pins /GULF_Stream_0/arp_status] [get_bd_ports arp_status]
+
+create_bd_intf_port -mode Master -vlnv clarkshen.com:user:GULF_stream_meta_rtl:1.0 meta_rx
+connect_bd_intf_net [get_bd_intf_pins GULF_Stream_0/meta_rx] [get_bd_intf_ports meta_rx]
+
+create_bd_intf_port -mode Slave -vlnv clarkshen.com:user:GULF_stream_meta_rtl:1.0 meta_tx
+connect_bd_intf_net [get_bd_intf_pins GULF_Stream_0/meta_tx] [get_bd_intf_ports meta_tx]
+
 set_property name init [get_bd_intf_ports CLK_IN_D_0]
 set_property name gt_ref [get_bd_intf_ports gt_ref_clk_0]
 set_property CONFIG.FREQ_HZ 200000000 [get_bd_intf_ports /init]
